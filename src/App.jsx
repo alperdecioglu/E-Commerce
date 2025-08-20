@@ -1,20 +1,29 @@
-import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import Header from './layout/Header';
-import Footer from './layout/Footer';
+
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PageContent from './layout/PageContent';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { verifyUser } from './store/actions/clientActions';
+import { fetchCategories } from './store/actions/productActions';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(verifyUser());
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
   return (
-    <Router>
-      <div className="flex flex-col min-h-screen">
-        <Header />
-        <div className="flex-grow">
-          <PageContent />
-        </div>
-        <Footer />
-      </div>
-    </Router>
+    <>
+      <PageContent />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+      />
+    </>
   );
 }
 
